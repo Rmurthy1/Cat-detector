@@ -1,5 +1,5 @@
 
-const int LOADCELL_DOUT_PIN = 14; //D5;
+/*const int LOADCELL_DOUT_PIN = 14; //D5;
 const int LOADCELL_SCK_PIN = 12; //D6;
 const int tareButtonPin = 13; // TARE BUTTON  // D7 is GPIO13;
 
@@ -26,4 +26,39 @@ void loop() {
     Serial.print("tare pressed. offset: ");
     
   }
+}*/
+
+#include <SoftwareSerial.h>
+
+const byte rxPin = 2;
+const byte txPin = 3;
+
+// Set up a new SoftwareSerial object
+SoftwareSerial mySerial (rxPin, txPin);
+
+String message = "";
+bool messageReady = false;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(rxPin, INPUT);
+  pinMode(txPin, OUTPUT);
+    
+  // Set the baud rate for the SoftwareSerial object
+  mySerial.begin(9600);
+}
+
+void loop() {
+  while (Serial.available()) { 
+    message = Serial.readString();
+    messageReady = true;
+    Serial.println("wrote");
+  }
+  if (messageReady == true) {
+    //do stuff
+    messageReady = false;
+    mySerial.write("message");
+  }
+
 }
