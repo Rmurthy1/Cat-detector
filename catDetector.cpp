@@ -27,11 +27,14 @@ void loop() {
     
   }
 }*/
-
+#include <Arduino.h>
 #include <SoftwareSerial.h>
 
 const byte rxPin = 2;
 const byte txPin = 3;
+
+const byte trigPin = 4;
+const byte echoPin = 5;
 
 // Set up a new SoftwareSerial object
 SoftwareSerial mySerial (rxPin, txPin);
@@ -42,8 +45,12 @@ bool messageReady = false;
 void setup() {
   Serial.begin(9600);
 
+// pins for software serial, may get rid of when i use hardware serial
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
+
+  // pins for the HC-SR04
+  //pinMode(uint8_t pin, uint8_t mode)
     
   // Set the baud rate for the SoftwareSerial object
   mySerial.begin(9600);
@@ -58,7 +65,7 @@ void loop() {
   if (messageReady == true) {
     //do stuff
     messageReady = false;
-    mySerial.write("message");
+    mySerial.write(message.c_str());
   }
 
 }
